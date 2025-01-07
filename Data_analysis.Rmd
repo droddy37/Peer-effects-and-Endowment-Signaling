@@ -1,0 +1,429 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(readr)
+library(tidyverse)
+#top 50 liberal arts colleges
+Top_50_Liberal_Arts_Colleges_2015_2018_College <- read_csv("~/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Top 50 Liberal Arts Colleges 2015-2018 - College.csv")
+
+#yield data for all colleges
+Yeild_2022_data_Sheet_1_drvadm2022 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yeild_2022_data - Sheet 1 - drvadm2022.csv")
+
+Divest_data_2022 <- left_join
+
+#pulling out yeild 2022 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2022 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yeild_2022_data_Sheet_1_drvadm2022)
+
+
+Yield_data_2021 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2021.csv")
+View(Yield_data_2021)
+
+#pulling out  2021 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2021 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2021)
+
+Yield_data_2020 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2020.csv")
+
+
+#pulling out 2020 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2020 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2020)
+
+Lib_arts_yield_2020 <-
+  Lib_arts_yield_2020|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+
+Yield_data_2019 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2019.csv")
+
+#pulling out 2019 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2019 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2019)
+
+Lib_arts_yield_2019<-
+  Lib_arts_yield_2019|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+
+Yield_data_2018 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2018.csv")
+#pulling out 2018 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2018 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2018)
+
+Lib_arts_yield_2018 <-
+  Lib_arts_yield_2018|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+
+Yield_data_2017 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2017 (1).csv")
+
+#pulling out 2017 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2017 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2017)
+
+Lib_arts_yield_2017 <-
+  Lib_arts_yield_2017|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+#2016
+Yield_data_2016 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2016.csv")
+
+
+#pulling out 2016 Yield data for top 50 liberal arts colleges
+Lib_arts_yield_2016 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2016)
+
+Lib_arts_yield_2016 <-
+  Lib_arts_yield_2016|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+
+
+Yield_data_2015 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2015.csv")
+
+Lib_arts_yield_2015 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2015)
+
+Lib_arts_yield_2015 <-
+  Lib_arts_yield_2015|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+
+Yield_data_2014 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2014 (3).csv")
+
+
+Lib_arts_yield_2014 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2014)
+
+Lib_arts_yield_2014 <-
+  Lib_arts_yield_2014|>
+  mutate(admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100)
+
+
+#2013
+Yield_data_2013 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2013 (1).csv")
+
+Lib_arts_yield_2013<-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2013) 
+
+Lib_arts_yield_2013 <-
+  Lib_arts_yield_2013|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+#2012
+Yield_data_2012 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2012 (1).csv")
+
+Lib_arts_yield_2012<-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2012) 
+
+Lib_arts_yield_2012<-
+  Lib_arts_yield_2012|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+#2011
+Yield_data_2011 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2011.csv")
+
+Lib_arts_yield_2011<-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2011) 
+
+Lib_arts_yield_2011<-
+  Lib_arts_yield_2011|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+#2010
+Yield_data_2010 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Top 50 Liberal Arts Colleges 2015-2018 - 2010.csv")
+
+Lib_arts_yield_2010 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2010) 
+
+Lib_arts_yield_2010<-
+  Lib_arts_yield_2010|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+#2009
+Yield_data_2009 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2009.csv")
+
+Lib_arts_yield_2009 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2009) 
+
+Lib_arts_yield_2009<-
+  Lib_arts_yield_2009|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+#2008
+
+Yield_data_2008 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2008 (1).csv")
+
+Lib_arts_yield_2008 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2008) 
+
+Lib_arts_yield_2008<-
+  Lib_arts_yield_2008|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+
+#2007
+
+Yield_data_2007 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2007.csv")
+
+Lib_arts_yield_2007 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2007) 
+
+Lib_arts_yield_2007<-
+  Lib_arts_yield_2007|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+
+#2006
+
+Yield_data_2006 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/Yield_data - 2006.csv")
+
+Lib_arts_yield_2006 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,Yield_data_2006) 
+
+Lib_arts_yield_2006<-
+Lib_arts_yield_2006|>
+  mutate(ENRLT = as.double(ENRLT),
+         APPLCN = as.double(APPLCN),
+         ADMSSN = as.double(ADMSSN),
+         admit_percent = ADMSSN/APPLCN*100,
+         yield_rate = ENRLT/ADMSSN*100
+         )
+
+write_csv(Lib_arts_yield_2006, "Lib_arts_yield_2006.csv")
+write_csv(Lib_arts_yield_2007, "Lib_arts_yield_2007.csv")
+write_csv(Lib_arts_yield_2008, "Lib_arts_yield_2008.csv")
+write_csv(Lib_arts_yield_2009, "Lib_arts_yield_2009.csv")
+write_csv(Lib_arts_yield_2010, "Lib_arts_yield_2010.csv")
+write_csv(Lib_arts_yield_2011, "Lib_arts_yield_2011.csv")
+write_csv(Lib_arts_yield_2012, "Lib_arts_yield_2012.csv")
+write_csv(Lib_arts_yield_2013, "Lib_arts_yield_2013.csv")
+write_csv(Lib_arts_yield_2014, "Lib_arts_yield_2014.csv")
+write_csv(Lib_arts_yield_2015, "Lib_arts_yield_2015.csv")
+write_csv(Lib_arts_yield_2016, "Lib_arts_yield_2016.csv")
+write_csv(Lib_arts_yield_2017, "Lib_arts_yield_2017.csv")
+write_csv(Lib_arts_yield_2018, "Lib_arts_yield_2018.csv")
+write_csv(Lib_arts_yield_2019, "Lib_arts_yield_2019.csv")
+write_csv(Lib_arts_yield_2020, "Lib_arts_yield_2020.csv")
+write_csv(Lib_arts_yield_2021, "Lib_arts_yield_2021.csv")
+write_csv(Lib_arts_yield_2022, "Lib_arts_yield_2022.csv")
+
+```
+
+
+```{r}
+#tuition 2022
+
+tuition_data_2022 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2022.csv")
+
+Lib_arts_tuition_2022 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2022) 
+
+#2021
+tuition_data_2021 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2021.csv")
+
+Lib_arts_tuition_2021 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2021) 
+
+#2020
+
+tuition_data_2020 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2020.csv")
+
+Lib_arts_tuition_2020 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2020) 
+
+#2019
+
+tuition_data_2019 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2019.csv")
+
+Lib_arts_tuition_2019 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2019)
+
+#2018
+
+tuition_data_2018 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2018.csv")
+
+Lib_arts_tuition_2018 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2018)
+
+#2017
+tuition_data_2017 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2017.csv")
+
+
+Lib_arts_tuition_2017 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2017)
+
+#2016
+
+tuition_data_2016 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2016.csv")
+
+Lib_arts_tuition_2016 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2016)
+
+#2015
+
+tuition_data_2015 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2015.csv")
+
+Lib_arts_tuition_2015 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2015)
+
+#2014
+
+tuition_data_2014 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2014.csv")
+
+Lib_arts_tuition_2014 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2014)
+
+#2013
+
+tuition_data_2013 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2013.csv")
+
+Lib_arts_tuition_2013 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2013)
+
+#2012
+
+tuition_data_2012 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2012.csv")
+
+Lib_arts_tuition_2012 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2012)
+
+#2011
+
+tuition_data_2011 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2011.csv")
+
+Lib_arts_tuition_2011 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2011)
+
+
+#2010
+
+tuition_data_2010 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2010.csv")
+
+Lib_arts_tuition_2010 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2010)
+
+
+#2009
+
+tuition_data_2009 <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/tuition_data - 2009.csv")
+
+Lib_arts_tuition_2009 <-left_join(Top_50_Liberal_Arts_Colleges_2015_2018_College,tuition_data_2009)
+
+write_csv(Lib_arts_tuition_2009, "Lib_arts_tuition_2009.csv")
+write_csv(Lib_arts_tuition_2010, "Lib_arts_tuition_2010.csv")
+write_csv(Lib_arts_tuition_2011, "Lib_arts_tuition_2011.csv")
+write_csv(Lib_arts_tuition_2012, "Lib_arts_tuition_2012.csv")
+write_csv(Lib_arts_tuition_2013, "Lib_arts_tuition_2013.csv")
+write_csv(Lib_arts_tuition_2014, "Lib_arts_tuition_2014.csv")
+write_csv(Lib_arts_tuition_2015, "Lib_arts_tuition_2015.csv")
+write_csv(Lib_arts_tuition_2016, "Lib_arts_tuition_2016.csv")
+write_csv(Lib_arts_tuition_2017, "Lib_arts_tuition_2017.csv")
+write_csv(Lib_arts_tuition_2018, "Lib_arts_tuition_2018.csv")
+write_csv(Lib_arts_tuition_2019, "Lib_arts_tuition_2019.csv")
+write_csv(Lib_arts_tuition_2020, "Lib_arts_tuition_2020.csv")
+write_csv(Lib_arts_tuition_2021, "Lib_arts_tuition_2021.csv")
+write_csv(Lib_arts_tuition_2022, "Lib_arts_tuition_2022.csv")
+
+```
+
+$$Y_{it} = \alpha_i +\gamma_t + \sum\limits_{g}\sum\limits_{t \geq g} \delta_{it} T + x_{it} +\epsilon_{it}$$
+$$yield \ rate = \frac{enrolled}{admitted}*100$$
+$$log(\frac{\pi_{it}}{1+ \pi_{it}}) = \alpha_i +  \gamma_s + \beta_0 Endowment_{it} + \beta_0Peer\_divest\_prop $$
+Where $\pi$ represents the probability that an institution will commit to divesting thier endowment from fossil fuels. 
+
+Firstly, it is important to note some possible limitations, Specifically, it we have limited data on factors that incentivized a college to divest from fossil fuels. Much of this is related to and could be signaled by a number of things including students demographics, or college income/endowment
+
+```{r}
+library(did)
+library(ggplot2)
+
+# Load the data
+data <- read.csv()
+
+data$log_gdppc <- log(data$gdppc)
+
+# Mapping for variable names to custom titles
+yvar_titles <- list(
+  "v2xeg_eqdr" = "Equal Distribution of Resources",
+  "log_gdppc" = "GDP per capita"
+)
+
+gvar_titles <- list(
+  "sy_govt_us_econgrowth" = "Government",
+  "sy_faith_us_econgrowth" = "Religious",
+  "sy_enterp_us_econgrowth" = "Private Enterprise"
+)
+
+# Function to perform DID analysis and plot event study with custom titles
+perform_did_analysis <- function(yvar, gvar, filename_suffix) {
+  result <- att_gt(yname = yvar,
+                   tname = "year",
+                   idname = "countryid",
+                   gname = gvar,
+                   control_group = "notyettreated",
+                   data = data,
+                   xformla = ~1)
+ 
+  event_study <- aggte(result, type = "dynamic", na.rm = TRUE)
+ 
+  x_limits <- c(-20, 20)
+ 
+  # Plot the event study
+  plot <- ggdid(event_study) +
+    ggtitle(paste("Event Study -", gvar_titles[[gvar]], "on", yvar_titles[[yvar]])) +
+    xlab("Time") +
+    ylab("ATT Estimates") +
+    theme_minimal(base_size = 15) +
+    theme(
+      plot.background = element_rect(fill = "white", color = NA),
+      panel.background = element_rect(fill = "white", color = NA),
+      panel.grid.major = element_line(color = "grey80"),
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(angle = 90, hjust = 1, size = 8),
+      axis.text.y = element_text(size = 10),
+      plot.title = element_text(size = 14, hjust = 0.5) # Center the title
+    ) +
+    scale_x_continuous(limits = x_limits, breaks = seq(x_limits[1], x_limits[2], by = 1))
+ 
+  # Adjust point and line sizes without changing colors
+  plot$layers[[1]]$aes_params$size <- 3.5  # Points
+  plot$layers[[2]]$aes_params$size <- 1.5  # Lines
+ 
+  print(plot)
+ 
+  ggsave(paste0("event_study_plot_", filename_suffix, ".png"), plot = plot, width = 12, height = 8, dpi = 300)
+}
+
+# Analysis and plots for 'govt', 'faith', 'enterp' using 'v2xeg_eqdr'
+perform_did_analysis("v2xeg_eqdr", "sy_govt_us_econgrowth", "govt_v2xeg_eqdr")
+perform_did_analysis("v2xeg_eqdr", "sy_faith_us_econgrowth", "faith_v2xeg_eqdr")
+perform_did_analysis("v2xeg_eqdr", "sy_enterp_us_econgrowth", "enterp_v2xeg_eqdr")
+
+# Analysis and plots for 'govt', 'faith', 'enterp' using 'log_gdppc'
+perform_did_analysis("log_gdppc", "sy_govt_us_econgrowth", "govt_log_gdppc")
+perform_did_analysis("log_gdppc", "sy_faith_us_econgrowth", "faith_log_gdppc")
+perform_did_analysis("log_gdppc", "sy_enterp_us_econgrowth", "enterp_log_gdppc")
+```
+
+
+
+```{r}
+College_panel_Divest_data_2<- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/College_panel - Divest_data (2).csv")
+
+College_panel_College <- read_csv("Library/Mobile Documents/com~apple~CloudDocs/Downloads/College_panel - College.csv")
+
+College_panel_Divest_data_3 <- left_join(College_panel_Divest_data_2,College_panel_College)
+
+College_panel <- College_panel_Divest_data_3|>
+  rename(divest_peers= `Divest _peers`)|>
+  mutate(peer_prop = divest_peers/peer_num)
+
+write_csv(College_panel, "College_panel.csv")
+
+```
+

@@ -1,0 +1,405 @@
+---
+title: " Peer Effects and Endowment Signaling: The Effect of ESG Investment on College Matriculation"
+author: "Donovan Roddy"
+editor_options:
+  markdown:
+    wrap: 72
+  chunk_output_type: console
+output:
+  pdf_document:
+    latex_engine: pdflatex
+  html_document:
+    df_print: paged
+---
+
+```{r Libraries and Dataset Setup, message=FALSE, warning=FALSE, echo = FALSE}
+library(tidyverse)
+library(mosaic)
+library(kableExtra)
+library(lme4)
+library(tinytex)
+library(gridExtra)
+library(plm)
+library(stargazer)
+
+Divest_final <- read_csv("~/Library/Mobile Documents/com~apple~CloudDocs/Downloads/Divest_final_2.csv")
+
+
+```
+
+
+Abstract: Does peer pressure influence colleges’ fossil fuel divestment decisions, and do these policies attract prospective students? Theories on peer effects suggest colleges look to their peers to make policy decisions, and that prospective college students look at institutional signals to make enrollment decisions. To address this question empirically I look at the top 50 Liberal Arts colleges using panel data from the years 2014 to 2022. I use a mixed effects logistic regression to predict a college's propensity to divest their endowment from fossil fuel companies from their proportion of self selected peers who choose to divest in the prior year. I than exploit these propensity scores using a two-way fixed effects regression, to determine their effect on student matriculation rates. This analysis finds that over time, colleges with a larger proportion of peers who divest have a higher propensity to divest, but colleges with a higher propensity to divest from fossil fuels are not observed to have significantly different student matriculation rates. These findings suggest further exploration into peer effects on college investment policy and alternative inquiry into how colleges signal to prospective students. 
+
+\setlength{\baselineskip}{1.5cm}
+
+Keywords: Peer Effects, Environmental Social Governance, Liberal Arts Colleges
+
+\setlength{\baselineskip}{0.5cm}
+JEL Codes: I22, D25
+
+\newpage
+
+# 1 Introduction
+
+  Current discussions around the effects of fossil fuels on the climate have motivated discussions around the world, particularly in Academia. Over the past few years, colleges have begun to incorporate sustainability as a part of their mission (Grindsted 2011). This has been motivated by environmental activist movements intending to advocate for the institutional movements against climate change, and specifically for institutions to consider the role they play in environmental challenges. Such policies include adopting policies and programs related to interdisciplinary research development and sustainable workforce practices (Buks and Sobański 2023). One of the policy positions often advocated through student movements is for institutions of higher education to divest their endowment from companies involved in the fossil fuel industry. Discussions on the effects and difficulties of divestment have been ongoing for many years within educational institutions, especially considering the intricacies of university endowments. To be specific, many endowments are incentivized to maximize growth over time (Bulman 2022). In addition, there are a few colleges, typically higher-ranked institutions, that have large endowments, while most have smaller endowments that do not contribute to revenues. Moreover, for private Liberal Arts institutions, endowments are functional expenditures and alumni donations, and greater endowment wealth is often used to increase spending and selectivity (Bulman 2022). As a result, there is significant heterogeneity in endowment asset management which presents a variety of constraints for institutions. However, in response to wider social movements, investment strategies have begun to incorporate Environmental and Social Governance, which account for both externalities and liabilities related to environmental sustainability and social justice (Apergis, Poufinas, and Antonopoulos 2022). 
+ 
+  This coincides with changing preferences for higher education. With the cost of college in the United States rising, potential college students are now looking for more certainty that their education is going to pay off (Rothstein and Rouse 2011).  Furthermore, students are often searching for more work-driven degrees to enter more lucrative careers right outside of college (Rothstein and Rouse 2011). However, preferences appear to be more inclusive for students selecting Liberal Arts colleges, with many who matriculate having preferences for college-level attributes like legacy, political activity, and institutional connection (Nurnberg, Schapiro, and Zimmerman 2012). Furthermore, the rise in college endowment divestment has been increasing among top Liberal Arts colleges since around 2014 (Mikkelson et al. 2021). Since college administrators want students to attend their universities, they need to convince students that they provide the best chance at a sustainable life, and an education that both alines with the work they intend to do and matches their preferences for a college experience. This raises the question about what drives a Liberal Arts college’s marketing strategy, what commitment to addressing environmental issues signals to prospective students, and how institutions aim to compete with other colleges. Therefore, this paper explores what influences a college’s commitment to divestment and what a college’s commitment to climate-conscious policies signals to prospective students. 
+
+While there is limited economics literature on what predicts a college’s commitment to divesting their endowment from fossil fuels, past scholarship has described shareholder pressure as well as shifting preferences for deviating from politically incorrect and unethical markets following South Africa Apartheid (Jacob, Courant, and Ludwig 2003). Moreover, prior research has presented alternative policies to divestment, including having institutions invest in fossil fuels industries to leverage shareholder behavior of fossil fuel industries. Determining which of these two policies is preferred and the intended goals of either of them is an ongoing conversation, dependent on a multitude of political and institutional perspectives. However, there does appear to be evidence that both of them serve as potential engagement strategies within the context of carbon emission reduction, (Buks and Sobański 2023). Further, to determine whether a college will decide to adopt a policy, a prior initial analysis has suggested that political climates and state-level politics are the best predictors, as well as the influence of college peers (Mikkelson et al. 2021). Past scholarship has suggested that a college's ranking seems to predict their decision to divest, with implications of peer pressure on lower-ranked institutions to follow suit (Mikkelson et al. 2021). The economics literature on the effects of peers is expansive, with prior study looking at paid paternal leave policies (Dahl, Løken, and Mogstad 2014). Accordingly, prior research has distinguished two different channels of social influence. The first is social learning, where peers learn from the decisions of other individuals, and the second is that the decision of one institution affects the utility of the other making the same decision (Bursztyn et al. 2014). Within the context of college endowment policy, this suggests a further framework for what colleges may be considering within the context of their institutional objective functions. Discussion on peer pressure in higher education describes how colleges respond to the behavior of those they consider to be their equals or those they aspire toward (Winston and Zimmerman 2004). A prior analysis from The Chronicle of Higher Education suggests that colleges self-select their peers and tend to select those of relatively higher rank, suggesting evidence of their aspirations (Andrea Fuller 2012). Recent research has been conducted on colleges’ decisions to reopen following the COVID-19 pandemic finding they were influenced by policies adopted by their share of peers (Acton, Cook, and Luedtke 2022). So, peer pressure appears to influence the decisions of institutions, which suggests further research into how colleges make decisions related to environmental and social governance, and fossil fuel divestment. 
+ 
+Regarding student's decisions to attend a specific college, much of the prior literature suggests a combination of prestige, finances, and academic programs. However, the specifics of Liberal Arts selections present new opportunities for selection. In particular, prior evidence has shown that rising sticker prices tend to be associated with a negative signal for student attendance and enrollment (Buss, Parker, and Rivenburg 2004). In addition, since universities with greater wealth often increase spending and become more selective, this could lead to a stagnation in the diversity of their student body (Bulman 2022). Much of the argument around fossil fuel divestment centers around students and communities calling for institutions to match their money with their missions and social values (Lenferna 2018). This indicates a potential conflict with institutions that tend to maximize spending, endowment growth and selectivity. Both university endowment and rising tuition within Liberal Arts colleges can affect student matriculation (Bulman 2022). In addition, there also appears to be evidence that institutional action plays a role in signaling to students who wish to center their education on their morals (Buss, Parker, and Rivenburg 2004). Furthermore, while large public universities are often tied to larger research interests and industry contracts, Liberal Arts colleges and private undergraduate institutions tend to have more student-focused objective functions. This suggests an exploration into whether Liberal Arts colleges that adopt these policies signal elements of their institution that may amplify student matriculation. 
+
+This study looks at the top 50 Liberal Arts Colleges and explores how many of them committed to divesting over time. To predict peer effects, this study looks at a college’s proportion of their self-selected peers. These peers are derived from the *Chronicle of Higher Education* which asks colleges and universities to self-select which institutions they view as peer institutions (Andrea Fuller 2012). Then through information collected from college newspapers, I identified institutions that made announcements to divest their endowments from fossil fuels, and used mixed effects logistic regression to predict a college's probability of divestment from the proportion of their peers in the previous year who chose to do so. Then through fixed effects OLS, I analyze if colleges with a higher propensity to divest are associated with higher matriculation rates. Through my analysis, I find evidence that colleges' propensity to divest is significantly associated with the proportion of their peers from years prior who chose to divest. However, I found no association between a college’s likelihood of divesting and its matriculation rate. A multitude of regressions were performed to explore differences in fixed effects and random effects to ensure the robustness of results. 
+
+
+
+# 2 Data and Methods
+
+## 2.1 Data
+The data from this study was collected from the National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS). The data set includes characteristics from the top 50 Liberal arts colleges from the years 2014 to 2022. The data set includes yearly acceptance rates, which are the percentage of students who applied and were accepted, and information on total tuition collected and changes in endowment sizes each year. The variable of interest is a college’s matriculation rate, which is the percentage of students admitted who chose to enroll. A higher matriculation rate typically signals the quality and demand for a particular institution and indicates which institutions students are looking to attend (Bulman 2022). To determine the colleges who chose to divest, I looked at articles in local newspapers as well as college news articles. I created a binary variable where one indicated that the college’s Board of Trustees announced a commitment to a plan for divesting from fossil fuels. Table 1 below indicates the number of colleges in the data set each year that chose to divest, and Table two indicates the average yield rate each year.
+
+```{r, echo = FALSE }
+binary_counts <- Divest_final %>%
+  group_by(year) %>%
+  summarize(
+    Not_divest = sum(divest == 0, na.rm = TRUE),
+    Divest = sum(divest == 1, na.rm = TRUE)
+  )
+kable(binary_counts, escape = TRUE, caption = "Number of Colleges Who Divest Each Year")
+
+
+
+```
+
+Table one displays the number of the top 50 Liberal Arts colleges that choose to divest each year. The first college to Divest was Union College in New York in 2014, followed closely by Pitzer College in the same year. The table displays that around 2019, the number of colleges who chose to divest increased at a faster rate, with around 17 colleges committing to divestment in 2022. 
+ 
+
+```{r, echo = FALSE}
+summary_stats <- Divest_final %>%
+  group_by(year) %>%
+  summarize(
+    min = min(yield_rate, na.rm = TRUE),
+    Q1 = quantile(yield_rate, 0.25, na.rm = TRUE),
+    median = median(yield_rate, na.rm = TRUE),
+    Q3 = quantile(yield_rate, 0.75, na.rm = TRUE),
+    max = max(yield_rate, na.rm = TRUE),
+    mean= mean(yield_rate, na.rm = TRUE),
+    sd= sd(yield_rate, na.rm = TRUE),
+    n = n()
+  )
+
+kable(summary_stats, escape = TRUE, caption = " Yield Rate Summary Statistics")
+```
+
+Table two displays summary statistics for college yield rate (note yield rate and matriculation rate refer to the same measure). A college’s matriculation is $\frac{total \ number  \ enrolled}{total \ number \  admitted} *100$. The data indicates that the average yield rate at the top Liberal Arts institutions appears to be fairly constant aside from 2020. The dip in 2020 is likely due to many students withdrawing enrollment following shutdowns from the COVID-19 pandemic. Interestingly, the maximum yield rate appears to be around 98 percent. These high values are likely related to the United States Military and Navy colleges which tend to attract students with a high interest in attending should they be admitted. In addition, according to Figure 1 in the appendix, the yield rate appears to be fairly normally distributed, with a bit of a right skew. 
+
+
+
+Additionally, to determine peer effects on schools, I utilized a peer network tool from The *Chronicle of Higher Education* which displays the colleges that each institution selects as their peers (Elias 2024). The network is a directed network, which means that an institution selecting a college does not mean that the college will select them back. I then created a variable for a colleges proportion of peers who choose to divest each year as $\frac{number \ of \ peers \ in \ sample \ who  \ divested}{total \ number \ of \ self \ selected \ peers}$. This proportion from one time period earlier was then utilized to predict each institution's propensity of divesting for every year. Table 3 indicates the average proportion of peers who chose to divest each year. 
+
+
+```{r, echo = FALSE}
+summary_stats_prob <- Divest_final %>%
+  group_by(year) %>%
+  summarize(
+    min = min(peer_prop, na.rm = TRUE),
+    Q1 = quantile(peer_prop , 0.25, na.rm = TRUE),
+    median = median(peer_prop, na.rm = TRUE),
+    Q3 = quantile(peer_prop, 0.75, na.rm = TRUE),
+    max = max(peer_prop, na.rm = TRUE),
+    mean= mean(peer_prop, na.rm = TRUE),
+    sd= sd(peer_prop, na.rm = TRUE),
+    n = n()
+  )
+
+kable(summary_stats_prob, escape = TRUE, caption = "Proportions of Self-selected College Peers Who Divested")
+```
+Table three displays summary statistics for a college's proportion of peers who chose to divest. The data indicates that the average yearly proportion of self-selected peers who chose to divest at the top Liberal Arts institutions appears to hover at less than 10 percent until around 2019. This is when the number of colleges who chose to divest began to increase each year. In addition, according to Figure 3 in the appendix, the proportions appear to be fairly right-skewed. 
+
+
+## 2.2 Methods
+
+To address the question of whether peer effects predict the probability of an institution divesting from fossil fuels, I utilize a mixed-effects logistic regression to predict the probability of an institution $i$ divesting at time $t$. I chose it over a linear probability model to ensure that predicted probabilities were bounded between zero and one. In addition, since this model did not intend to isolate probable causality, a combination of random effects for institutions was chosen for this model to account for the correlation of observations. Since this model was intended to determine a college’s propensity to divest, and not isolate factors that determined their decisions, fixed effects were not used as they would remove institutions that did not divest during the time period of the study. Furthermore, there exists prior literature that utilizes mixed effects logistic regression for propensity scores (Abadie and Imbens 2006). To explore alternative models, I ran an additional model that utilized time period dummy variables to determine if a college's propensity of divesting was related to time period specific factors. I than used a likelihood ratio test to determine if these time dummies added significant predictive power (See Appendix Table 10).
+
+The model equation is written below. 
+$$\log(\frac{\pi_{it}}{1-\pi_{it}}) = \beta_0 + \beta_1endow\_dif_{it} + \beta_2tuition_{it} +  \beta_3peer\_divest\_prop_{it-1} +  u_i$$
+
+Regarding model terms, $\beta_3$ represents the effects of the variable of interest which is a college's proportion of their self selected peers who choose to divest from fossil fuels in the previous time period. Controls include the colleges endowment annual endowment growth and their total sum of tuition, which are expected to predict investment decisions. $u_i$ represents random college to college variation in divestment decisions. Finally, $\pi_{it}$ represents the probability that college $i$ at time $t$ will indicate their commitment to removing their endowment from fossil fuels. 
+
+
+
+Where 
+$$\pi_{it} = \frac{e^{\beta_0 + \beta_1endow\_dif_{it}  + \beta_2tuition_{it}+ \beta_3peer\_divest\_prop_{it-1} + u_i}}{1 + e^{\beta_0 + \beta_1endow\_dif_{it}  + \beta_2tuition_{it}+ \beta_3peer\_divest\_prop_{it-1} + u_i}}$$
+
+Following the logistic regression, the estimated propensity scores are then regressed on a college's yield rate each year. College level fixed effects were used as many of the determinants for students choosing to attend Liberal Arts colleges include factors such as location, size, academic programming, political involvement, and full financial aid (Buss, Parker, and Rivenburg 2004). While the college attributes occasionally evolve over time, many of these factors are effectively time-invariant, and effectively captured by the fixed effects. Time-fixed effects were incorporated to account for changes in the yield rates to time-specific factors that affect all colleges. One such example is the enrollment decline in 2020 following COVID-19 shutdowns. Other models were fit using random effects, and a Hausman test was used to determine best fit. Moreover, other controls include the college's total tuition which is used to capture rising tuition prices over time, which is negatively associated with college matriculation for private Liberal Arts colleges (Buss, Parker, and Rivenburg 2004). A college's acceptance rate was also controlled for, as it can signal a college's yearly reputation (Buss, Parker, and Rivenburg 2004). Models were run with and without these controls. The full model equation is expressed below.
+
+$$Y_{it} = \alpha_i + \gamma_t + \beta_0tuition_{it} + \beta_1accept\_rate_{it} +  \psi\widehat{\pi_{it}} + u_{it}$$
+Where $\alpha_i$ and $\gamma_t$ represent college and time-fixed effects. The coefficient of interest is $\psi$ which is the effect of a college's propensity to divest, $\widehat{\pi_{it}}$, on their yield rate. 
+
+
+# 3 Results
+
+```{r,echo = FALSE, warning = FALSE, message = FALSE}
+
+test <- Divest_final|>
+  mutate(
+    tuition_1000 = tuition/10000000,
+    endow_dif_1000 = endow_dif/10000000,
+  year_center = year -2014)
+
+test$tuition_std <- scale(test$tuition)
+test$endow_dif_std <- scale(test$endow_dif)
+test$peer_prop_std <- scale(test$lagged_peer_prop)
+
+xtlogit_1 <- glmer(divest ~ tuition_std + endow_dif_std + peer_prop_std + (1 | unitid), family=binomial(link = "logit"), data=test)
+
+
+#stargazer(xtlogit_1, xtlogit_2, 
+          #type = "latex", 
+         # title = "Mixed-Effects Regression Results",
+          #out = "mixed_effects_table.tex")
+
+
+```
+## 3.1 Logit Estimation
+Table 4 indicates the initial mixed effects logistic estimation. The Variable of interest is $peer\_prop\_std$, which indicates the proportion of selected college peers from the previous period, $t-1$. This value was standardized to account for the significant right skew of the proportion (See figure 3 in Appendix).
+```{r, echo = FALSE, warning = FALSE}
+ summary(xtlogit_1)$coefficients %>% as.data.frame()  %>%
+  kable(escape = TRUE, caption = "Estimated Propensity to Divest")
+
+#stargazer(xtlogit_1, xtlogit_2, 
+          #type = "latex", 
+          #title = "Mixed-Effects Regression Results",
+          #out = "mixed_effects_table.tex",
+          #align = TRUE,            
+          #no.space = TRUE,
+          #single.row = TRUE,
+          #header = FALSE)
+```
+
+*Notes*: Table 4 indicates the final mixed effects logistic regression model. An additional model was run with time period dummy variables to determine if the college's probability of divesting was due to time-specific factors. Through a  likelihood ratio test, the current model was determined to be the best fit. (See Appendix table 10). The model suggests there is statistically significant evidence ( z-value = 3.95, p-value < 0.001)  that, on average, a college’s proportion of self-selected peers who divested in the previous period is associated with a positive increase in the probability of them divesting from fossil fuels. Regarding the large magnitude of the coefficient, this is due to the proportions being rather small. Also, there is statistically significant evidence ( z-value = -2.69, p-value = 0.007) that a decline in a college’s annual endowment earnings is positively associated with their propensity to divest. Finally, there is statistically significant evidence ( z-value = 3.4, p-value < 0.001) that a college’s total collected tuition is positively associated with its propensity to divest. In addition, values were standardized to ensure model convergence.
+
+
+```{r, echo = FALSE, warning = FALSE}
+summary_stats_prob <- Divest_final %>%
+  group_by(year) %>%
+  summarize(
+    min = min(prob, na.rm = TRUE),
+    Q1 = quantile(prob , 0.25, na.rm = TRUE),
+    median = median(prob, na.rm = TRUE),
+    Q3 = quantile(prob, 0.75, na.rm = TRUE),
+    max = max(prob, na.rm = TRUE),
+    mean= mean(prob, na.rm = TRUE),
+    sd= sd(prob, na.rm = TRUE),
+    n = n()
+  )
+
+kable(summary_stats_prob, escape = TRUE, caption = "Proportion of Self-selected College Peers who choose to divest")
+```
+
+*Notes*: Table 5 indicates the average college’s propensity to divest over time. It indicates that on average, colleges' propensity to divest has been increasing over time. Notably, propensity scores were fairly right skewed with the majority of values centered between 0 and 0.2 (See Figure 2 in Appendix). These propensity scores were then regressed in the two-way fixed effects regression below.
+
+## 3.2 Two-Way Fixed Effects Estimation 
+
+```{r,echo = FALSE, warning = FALSE, message = FALSE}
+pdata <- pdata.frame(test, index = c("unitid", "year"))
+
+model <- plm(yield_rate ~ admit_percent + tuition_1000 + prob, 
+             data = pdata, 
+             model = "within",  # Fixed effects
+             effect = "twoways")  # Two-way fixed effects
+
+model3 <- plm(yield_rate ~ tuition_1000 + prob, 
+             data = pdata, 
+             model = "within",  # Fixed effects
+             effect = "twoways")  # Two-way fixed effects
+
+model4 <- plm(yield_rate ~ prob, 
+             data = pdata, 
+             model = "within",  # Fixed effects
+             effect = "twoways")  # Two-way fixed effects
+
+
+```
+
+```{r initial model, results = "asis", echo = FALSE}
+#summary(model)$coefficients %>% as.data.frame()  %>%
+  #kable(escape = TRUE, caption = "Two Way Fixed Effects Model ")
+
+
+stargazer(model, model3, model4, header=FALSE, type='latex', single.row = TRUE,
+          no.space = TRUE)
+```
+
+
+
+*Notes*: Table 6 indicates the two-way fixed effects regression model. The model accounts for time-invariant group effects and time-varying effects that do not vary among colleges. Each column represents additional models that were run with the addition of covariates. Further, a random effects model was also run, and a Hausman test was used to determine which model was the most consistent and efficient (See Appendix table 7). All 3 models suggest no statistically significant evidence that a college’s propensity to divest affects its yield rate ( t-value = -0.5810, p-value = 0.56168). Regarding covariates, there is marginally significant evidence ( t= -2.1406 p-value = 0.03307) that a unit increase in a college’s collected tuition is associated with a 0.70 percentage point decrease in its matriculation rate. Finally, there is statistically significant evidence ( t-value = -40.7536, p-value <0.001) a percentage point increase in a college’s acceptance rate is associated with a 0.93 percent decrease in its yield rate. With an $R^2$ of 0.840, this suggests that much of the variation in a college's matriculation is explained by variation in its acceptance rate after accounting for group and time effects.
+
+
+
+## 3.3 Discussion
+
+These results indicate that a college’s propensity to commit to divesting their endowments from fossil fuels does not have a significant effect on their matriculation rate. However, there is some evidence that a college’s decision to divest from fossil fuels could be predicted by the proportion of their peers who choose to divest. In addition, there is some significant evidence that contractions in a colleges endowment earnings is inversely related to their propensity to divest. This could be due to desires to change investment strategies in attempts to grow endowment value. Meanwhile, after controlling for time-varying effects and time-invariant group effects, it appears that a college’s acceptance rate ($\frac{number \ accepted}{number  \ applied}*100$) is highly correlated with its yield rate. This is consistent with prior literature which suggests that ranking, perceived through acceptance rates, is a strong predictor of student matriculation (Weiler 1996). 
+
+Critically though, it is important to note several limitations within this analysis. Firstly, this study still faces some data limitations. The college sample only included the Top 50 Liberal Arts colleges and excluded public and Ivy League research institutions. As a result, these findings are likely not generalizable to these colleges, and the limitation in the sample leaves out the wide variety of higher education institutions, which could be an avenue for future research. The data utilized in this study also had a limited number of time-varying and district-varying covariates. The ones utilized for modeling included total tuition and the change in the size of a college’s endowment. Other covariates that could be important to account for include average annual tuition paid by students or information about shifts in student activism over time. Another challenge with this analysis is that the data was limited in information about the total number of college peers who divested, as I only had information on the colleges within this sample who divested. Therefore, if a divesting college is listed as a peer for a certain institution, but is not within the sample, the peer proportions were potentially smaller than in reality. In addition, this data does not account for the ranking of the peers or if there is heterogeneous peer influence. For instance, divestment from Ivy League institutions may carry more weight with these colleges than peers of a similar or lower ranking (Mikkelson et al. 2021). Therefore, other methods like neural networks might be better at isolating peer effects.  Regarding estimating a college’s propensity to divest, it is challenging to make causal claims considering the model was intended to predict a probability. Furthermore, this analysis did not have any information to account for endowment management characteristics that vary over time and between institutions. This could be pertinent based on the intricacies and implications that endowments have on the selection and spending decisions of colleges and universities (Bulman 2022). However, based on past and ongoing scholarship about peer effects on higher education policy, these findings appear to align with the trend that colleges look to their peers to make decisions. (See Acton, Cook, and Luedtke 2022 & Winston and Zimmerman 2004). More precise casuals estimation is required to test the robustness of this claim for endowment divestment policies. Moreover, this future study could help determine if this indicates evidence of social learning, where colleges by learn observing the utility gained from other peer institutions' decisions (Bursztyn et al. 2014). 
+
+Regarding implications from this study, the analysis suggests that there is no significant relationship between a college’s choice to divest and students' choices to attend. Considering that the acceptance rate appeared to explain the vast majority of the variation in matriculation within a college, this suggests that these policies may not act as a signal to prospective students. Although this study is limited in making casual claims and the data was limited to only the top 50 Liberal Arts colleges, the upward trend in college divestment policies suggests additional analysis could be done on how they predict institutional performance. It is unclear if a decision to adopt these policies may have longer-term effects on the performance of current students or amplify college commitments to other environmentally focused policies.
+
+
+
+# 4 Conclusion 
+
+Through a mixed-effects logistic regression and two-way fixed effects regression, this study attempts to untangle how peer influence can predict a college’s propensity to divest their endowment from fossil fuels, and if colleges with a high likelihood of divesting enroll more students. Using a data set of the top 50 Liberal Arts Colleges over time, this study reveals colleges with a higher proportion of peers in previous years who divested are predicted to be more likely to divest in the future, but that colleges who are more likely to adopt these polices do not see a significant difference in their matriculation rate. These findings suggest several avenues for future research, both on peer effects within education policies and research on what students are looking for when they go to college. Firstly, while this study uncovers having many peers who divest can predict an institution's likelihood of divesting, more precise estimates of this effect, with casual implications, could be explored. In addition, more research on how endowment management practices have changed over time may provide more internal answers to the questions that colleges’ Board of Trustees are thinking about. Furthermore, collecting information on all post-secondary institutions, and not just Liberal Arts colleges, will likely provide a more robust narrative both about peer influence and the change in endowment divestment practices over time. Seeing as these results are only generalizable to these top 50 Liberal Arts institutions, further insight from public universities, and how their endowment management differs, may uncover further context about which institutions are likely to adopt these policies. As institutions of higher education adapt to their role in navigating climate change, engaging in sustainability practices through the instruction of students may become much more central in the future. Thus, understanding what attracts students to certain institutions will provide essential information as colleges adapt to rapidly evolving environmental and social challenges. 
+
+
+# 5 Works Cited
+
+Abadie, Alberto, and Guido W. Imbens. 2006. “Large Sample Properties of Matching Estimators for Average Treatment Effects.” Econometrica 74 (1): 235–67. https://doi.org/10.1111/j.1468-0262.2006.00655.x.
+
+Acton, Riley K., Emily E. Cook, and Allison Luedtke. 2022. “The Influence of Peer Institutions on Colleges’ Decisions: Evidence from Fall 2020 Reopening Plans.” Journal of Economic Behavior & Organization 195 (March):288–302. https://doi.org/10.1016/j.jebo.2022.01.016.
+
+Andrea Fuller. 2012. “In Selecting Peers for Comparison’s Sake, Colleges Look Upward.” The Chronicle of Higher Education. September 10, 2012. https://www.chronicle.com/article/in-selecting-peers-for-comparisons-sake-colleges-look-upward/.
+
+Apergis, Nicholas, Thomas Poufinas, and Alexandros Antonopoulos. 2022. “ESG Scores and Cost of Debt.” Energy Economics 112 (August):106186. https://doi.org/10.1016/j.eneco.2022.106186.
+
+Buks, Andrew G., and Konrad Sobański. 2023. “Divest or Engage? Effective Paths to Net Zero from the U.S. Perspective.” Economics and Business Review 9 (1): 65–93. https://doi.org/10.18559/ebr.2023.1.3.
+
+Bulman, George. 2022. “The Effect of College and University Endowments on Financial Aid, Admissions, and Student Composition.” Working Paper. Working Paper Series. National Bureau of Economic Research. https://doi.org/10.3386/w30404.
+
+Bursztyn, Leonardo, Florian Ederer, Bruno Ferman, and Noam Yuchtman. 2014. “Understanding Mechanisms Underlying Peer Effects: Evidence From a Field Experiment on Financial Decisions.” Econometrica 82 (4): 1273–1301. https://doi.org/10.3982/ECTA11991.
+
+Buss, Christian, Jeffrey Parker, and Jon Rivenburg. 2004. “Cost, Quality and Enrollment Demand at Liberal Arts Colleges.” Economics of Education Review 23 (1): 57–65. https://doi.org/10.1016/S0272-7757(03)00047-5.
+
+Dahl, Gordon B., Katrine V. Løken, and Magne Mogstad. 2014. “Peer Effects in Program Participation.” American Economic Review 104 (7): 2049–74. https://doi.org/10.1257/aer.104.7.2049.
+
+Elias, Jacquelyn. 2024. “Who Does Your College Think Its Peers Are?” 2024. https://www.chronicle.com/article/who-does-your-college-think-its-peers-are.
+
+Grindsted, Thomas. 2011. “Sustainable Universities – From Declarations on Sustainability in Higher Education to National Law.” SSRN Scholarly Paper. Rochester, NY: Social Science Research Network. https://doi.org/10.2139/ssrn.2697465.
+
+Jacob, Brian A., Paul N. Courant, and Jens Ludwig. 2003. “Getting inside Accountability: Lessons from Chicago [with Comments].” Brookings-Wharton Papers on Urban Affairs, 41–81.
+
+Lenferna, Alex. 2018. Divest–Invest: A Moral Case for Fossil Fuel Divestment. Vol. 1. Oxford University Press. https://doi.org/10.1093/oso/9780198813248.003.0008.
+
+Mikkelson, Gregory M., Miron Avidan, Aleksandra Conevska, and Dror Etzion. 2021. “Mutual Reinforcement of Academic Reputation and Fossil Fuel Divestment.” Global Sustainability 4 (January):e20. https://doi.org/10.1017/sus.2021.19.
+
+Nurnberg, Peter, Morton Schapiro, and David Zimmerman. 2012. “Students Choosing Colleges: Understanding the Matriculation Decision at a Highly Selective Private Institution.” Economics of Education Review 31 (1): 1–8. https://doi.org/10.1016/j.econedurev.2011.07.005.
+
+Rothstein, Jesse, and Cecilia Elena Rouse. 2011. “Constrained after College: Student Loans and Early-Career Occupational Choices.” Journal of Public Economics 95 (1): 149–63. https://doi.org/10.1016/j.jpubeco.2010.09.015.
+
+Weiler, William C. 1996. “Factors Influencing the Matriculation Choices of High Ability Students.” Economics of Education Review 15 (1): 23–36. https://doi.org/10.1016/0272-7757(95)00023-2.
+
+Winston, Gordon, and David Zimmerman. 2004. “Peer Effects in Higher Education.” In College Choices: The Economics of Where to Go, When to Go, and How to Pay For It, 395–424. University of Chicago Press. https://www.nber.org/books-and-chapters/college-choices-economics-where-go-when-go-and-how-pay-it/peer-effects-higher-education.
+
+
+
+# 6 Appendix
+
+
+```{r, results = "asis", echo = FALSE, warning = FALSE}
+
+model2 <- plm(yield_rate ~ prob + admit_percent + tuition_1000, 
+             data = pdata, 
+             model = "random")
+
+stargazer(model2, header=FALSE, type='latex', single.row = TRUE,
+          no.space = TRUE)
+
+```
+
+The above model is the random effects model predicting a college's yield rate. The model suggests that there is not statistically significant evidence that a unit increase in a college's propensity to divest is associated with a college's yield rate. However, to check robustness, a Hausman test was performed to determine if unobserved time invariant factors were due to institution specific elements captured by fixed effects. 
+
+**Hausman test**
+
+|    Chisq|  Df|Pr(>Chisq)|
+|--------:|---:|---------:|
+| 4.9288  |   2|   0.08506|
+
+A Hausman Test was performed to test the consistency of the random effects linear model compared to the Two Way Fixed Effects Model. The Test suggests marginally statistically significant evidence (Chisq = 4.9288, P-value =0.085) that the fixed effects model is both consistent and preferred. Consideirng that many of the factors that influencs students decision to go to college are individual specific factors that do not change over time, I went with the fixed effects.
+
+
+```{r, echo = FALSE, Warning = FALSE}
+xtlogit_2 <- glmer(divest ~  tuition_1000 + endow_dif_1000 + peer_prop_std + as.factor(year) + (1 | unitid), family=binomial(link = "logit"), data=test)
+
+ summary(xtlogit_2)$coefficients %>% as.data.frame()  %>%
+  kable(escape = TRUE, caption = "Estimated Propensity to Divest Model 2")
+```
+*Notes*: This model includes time period dummy variables to determine if a college's propensity to divest is related to time period factors that effect all colleges. A Likelihood Ratio Test was performed to determine if adding the time dummies to account for year specific factors that effect all colleges added prediction power to a college's propensity to divest. 
+
+
+```{r, fig.height=5, fig.width=10, echo = FALSE, Warning = FALSE}
+
+anova(xtlogit_1, xtlogit_2)[, c("AIC", "BIC", "deviance", "Chisq", "Df", "Pr(>Chisq)")] %>% as_tibble() %>% replace(is.na(.), NA) %>% kable(caption = " Mixed Effects Logit Likelihood Ratio Test")
+```
+The Likelihood Ratio Test indicates there is not statistically significant evidence ( Chisq = 2.15, P-value = 0.95) that accounting for time specific unobserved factors adds essential predictive power to a college's propensity to divest. 
+
+
+```{r fig.height=5, fig.width=10, echo = FALSE, warning = FALSE}
+ggplot(Divest_final, aes(x = peer_prop)) +
+  geom_histogram(aes(y = ..density..), 
+                 bins = 15, 
+                 fill = "lightblue", 
+                 color = "grey") +
+  geom_density(color = "black")+
+  labs(title = " College Propensity",
+       x = "Value",
+       y = "Density",
+       caption = "Figure 1") +
+  theme_minimal()
+```
+Figure 1: displays the distribution of the proportion of college peers who divest. The value is very clearly right skewed. To account for this, the values were normalized.
+
+```{r fig.height=5, fig.width=10, echo = FALSE, warning = FALSE}
+ggplot(Divest_final, aes(x = yield_rate)) +
+  geom_histogram(aes(y = ..density..), 
+                 bins = 15, 
+                 fill = "red", 
+                 color = "grey") +
+  geom_density(color = "black")+
+  labs(title = " College Propensity",
+       x = "Value",
+       y = "Density",
+       caption = "Figure 2") +
+  theme_minimal()
+```
+Figure 2: displays the distribution of the proportion of college peers who divest. The values appear to be a bit right skewed, but not to the extend that they needed a transformation, especially considering they are percentages. 
+
+
+```{r fig.height=5, fig.width=10, echo = FALSE, warning = FALSE}
+ggplot(Divest_final, aes(x = prob)) +
+  geom_histogram(aes(y = ..density..), 
+                 bins = 15, 
+                 fill = "lightblue", 
+                 color = "black") +
+  labs(title = " College Propensity",
+       x = "Value",
+       y = "Density",
+       caption = "Figure 3") +
+  theme_minimal()
+```
+Figure 3: displays the distributions of estimated college divestment propensity scores.The majority of the propensity scores appear to be between zero and 0.2.
+
+```{r fig.height=5, fig.width=10, echo = FALSE, warning = FALSE}
+ggplot(Divest_final, aes(x = admit_percent, y = yield_rate)) +
+  geom_point(color = "blue", alpha = 0.6, size = 2) + 
+  geom_smooth(method = "lm", color = "red", se = TRUE) +  
+  labs(
+    title = "Scatter Plot of Yield Rate vs Acceptance Rate",
+    x = "Acceptance Rate",
+    y = "Yield Rate"
+  ) +
+  theme_minimal()
+```
+Figure 4: This scatter plot suggest statistically significant evidence that a college's acceptance rate is negatively correlated with it's yield rate. This aligns with prior literature on college selectivity signals and justified its inclusion in the Fixed Effects Model. Notably this figure does not account for the same colleges measured over time.
+
+```{r fig.height=5, fig.width=10, echo = FALSE, warning = FALSE}
+ggplot(Divest_final, aes(x = prob, y = yield_rate)) +
+  geom_point(color = "blue", alpha = 0.6, size = 2) +  # Scatter points
+  geom_smooth(method = "lm", color = "red", se = TRUE) +  # Add regression line
+  labs(
+    title = "Scatter Plot of Yield Rate vs Acceptance Rate",
+    x = " Propensity to Divest",
+    y = "Yield Rate"
+  ) +
+  theme_minimal()
+```
+Figure 5: This scatter plot suggest statistically significant evidence that a college's acceptance rate is negatively correlated with it's yield rate. This aligns with prior literature on college selectivity signals and justified its inclusion in the Fixed Effects Model. Notably this figure does not account for the same colleges measured over time, which could account for time invarient group specific differences in yield.
